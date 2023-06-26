@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-    <title>ここに難易度表の名前</title>
+    <title>VocalBMS難易度表</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
     <header class="mb-3">
         <nav class="navbar navbar-dark bg-dark">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">ここに難易度表の名前</span>
+                <span class="navbar-brand mb-0 h1">VocalBMS難易度表</span>
             </div>
         </nav>
     </header>
@@ -27,11 +27,12 @@
     <div class="container">
 
         <div class="alert alert-success mb-3" role="alert">
-            <p>ここに難易度表の説明文。次期難易度表フォーマット対応。</p>
-            <p>難易度表の読み込みと表示に数秒かかります。</p>
+            <p>ボーカル曲を集めました</p>
+            <p>ボーカロイドやUTAUなどは含まれていません</p>
             <hr>
-            <p class="mb-0">説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文</p>
+            <p class="mb-0">難易度変更など何かあればお気軽にどうぞ：<a href=https://twitter.com/Shinichi_616>Twitter</a>・<a href=https://discord.com/users/912308918095585291>Discord</a>・<a href=https://marshmallow-qa.com/shino616?utm_medium=url_text&utm_source=promotion>匿名で</a></p>
         </div>
+
 
 
         <!--ここから難易度表本体-->
@@ -55,13 +56,13 @@
                 var obj = $("#table_int");
 
                 obj.html("");
-                $("<thead class='table-dark'><tr><th>Level</th><th>Title</th><th>Artist</th><th>Comment</th></tr></thead><tbody>")
+                $("<thead class='table-dark'><tr><th>Level</th><th>Title (IR)</th><th>Artist (SongDL)</th><th>SabunDL</th><th>Comment</th></tr></thead><tbody>")
                     .appendTo(obj);
                 var obj_sep = null;
                 for (var i = 0; i < info.length; i++) {
                     if (x != info[i].level) {
                         if (obj_sep != null) {
-                            obj_sep.html("<td colspan='4'>" + "<b>" + mark + x + " (" + count +
+                            obj_sep.html("<td colspan='5'>" + "<b>" + mark + x + " (" + count +
                                 "譜面)</b></td>");
                         }
                         obj_sep = $("<tr class='table-dark' style='text-align:center' id='" + mark + info[i].level +
@@ -77,16 +78,39 @@
                     $("<td width='5%'>" + mark + x + "</td>").appendTo(str);
 
                     // Title
-                    $("<td width='45%'>" +
-                        "<a href='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=" + info[
-                            i]
-                        .md5 + "' target='_blank'>" + info[i].title + "</a></td>").appendTo(str);
+                    if (info[i].md5 != "" && info[i].md5 != null) {
+                        $("<td width='30%'>" +
+                            "<a href='http://www.dream-pro.info/~lavalse/LR2IR/search.cgi?mode=ranking&bmsmd5=" + info[i]
+                            .md5 + "' target='_blank'>" + info[i].title + "</a></td>").appendTo(str);
+                    }
+                    else{
+                        $("<td width='30%'>" +
+                            "<a href='https://mocha-repository.info/song.php?sha256=" + info[i]
+                            .sha256 + "' target='_blank'>" + info[i].title + "</a></td>").appendTo(str);
+                    }
 
-                    // Artist
-                    $("<td width='40%'>" + info[i].artist + "</td>").appendTo(str);
-
+                    // Artist, url
+                    if (info[i].url != "" && info[i].url != null) {
+                        $("<td width='35%'>" +
+                            "<a href='" + info[i].url +
+                            "' target='_blank'>" + info[i].artist + "</a></td>").appendTo(str);
+                    }
+                    else{
+                        $("<td width='35%'>" + info[i].artist + "</td>").appendTo(str);
+                    }
+                    
+                    //sabun
+                    if (info[i].url_diff != "" && info[i].url_diff != null) {
+                        $("<td width='10%'>" +
+                            "<a href='" + info[i].url_diff +
+                            "' target='_blank'>" + info[i].name_diff + "</a></td>").appendTo(str);
+                    }
+                    else{
+                        $("<td width='10%'>" + info[i].name_diff + "</td>").appendTo(str);
+                    }
+                    
                     // Comment
-                    $("<td width='10%'>" + info[i].comment + "</td>").appendTo(str);
+                    $("<td width='20%'>" + info[i].comment + "</td>").appendTo(str);
                     str.appendTo(obj);
                     count++;
 
@@ -94,7 +118,7 @@
                 $("</tbody>").appendTo(obj);
 
                 if (obj_sep != null) {
-                    obj_sep.html("<td class='table-dark' style='text-align:center' colspan='4'>" + "<b>" + mark + x +
+                    obj_sep.html("<td class='table-dark' style='text-align:center' colspan='5'>" + "<b>" + mark + x +
                         " (" + count + "譜面)</b></td>");
                 }
             }
