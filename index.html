@@ -95,27 +95,6 @@ function makeBMSTable(info, mark, order) {
 		for(var k=0; k < info.length; k++){
 			delete info[k]["_index"];
 		}
-	} else {
-		// そうでない場合はレベル順->タイトル順にソート
-		info.sort(
-			function(a,b){
-				var aLv = a["level"].toString();
-				var bLv = b["level"].toString();
-				if(isNaN(a["level"]) == false && isNaN(b["level"]) == false){
-					return a["level"]-b["level"];
-				} else if( aLv < bLv ){
-					return -1;
-				} else if( aLv > bLv ){
-					return 1;
-				} else if( a["title"].toLowerCase() < b["title"].toLowerCase() ){
-					return -1;
-				} else if( a["title"].toLowerCase() > b["title"].toLowerCase() ){
-					return 1;
-				} else {
-		　	　　	return 0;
-				}
-			}
-		);
 	}
 
                 obj.html("");
